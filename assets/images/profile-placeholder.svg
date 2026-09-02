@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900" role="img">
+  <rect width="720" height="900" fill="#F3F0E8"/>
+  
+  <rect x="48" y="48" width="624" height="804" fill="none" stroke="#1C3147" stroke-width="1.2" opacity="0.35"/>
+  <circle cx="360" cy="340" r="168" fill="#E8E4DA"/>
+  <circle cx="360" cy="340" r="168" fill="none" stroke="#7A93A8" stroke-width="1" opacity="0.7"/>
+  <path d="M120 780 C 220 620, 500 620, 600 780" fill="none" stroke="#1C3147" stroke-width="1.2" opacity="0.35"/>
+  <circle cx="560" cy="180" r="6" fill="#B56A4A"/>
+  <text x="360" y="640" text-anchor="middle" fill="#1C3147" font-family="ui-monospace, monospace" font-size="14" letter-spacing="0.16em">[ PERSONAL PHOTO PLACEHOLDER ]</text>
+  <text x="360" y="668" text-anchor="middle" fill="#6A6F76" font-family="ui-monospace, monospace" font-size="11" letter-spacing="0.14em">replace with your photograph</text>
+
+</svg>

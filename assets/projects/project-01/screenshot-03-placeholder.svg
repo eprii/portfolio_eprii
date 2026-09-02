@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" role="img">
+  <rect width="1280" height="800" fill="#F3F0E8"/>
+  
+  <rect x="32" y="32" width="1216" height="736" fill="#F8F6F1" stroke="#1C3147" stroke-width="1" opacity="0.35"/>
+  <rect x="32" y="32" width="1216" height="48" fill="#E8E4DA"/>
+  <circle cx="64" cy="56" r="5" fill="#B56A4A" opacity="0.7"/>
+  <circle cx="82" cy="56" r="5" fill="#7A93A8" opacity="0.7"/>
+  <circle cx="100" cy="56" r="5" fill="#1C3147" opacity="0.25"/>
+  <rect x="64" y="120" width="320" height="22" fill="#1C3147" opacity="0.12"/>
+  <rect x="64" y="160" width="568" height="18" fill="#E8E4DA"/><rect x="64" y="202" width="605" height="18" fill="#E8E4DA"/><rect x="64" y="244" width="642" height="18" fill="#E8E4DA"/><rect x="64" y="286" width="679" height="18" fill="#E8E4DA"/><rect x="64" y="328" width="716" height="18" fill="#E8E4DA"/><rect x="64" y="370" width="753" height="18" fill="#E8E4DA"/><rect x="64" y="412" width="430" height="18" fill="#E8E4DA"/><rect x="64" y="454" width="467" height="18" fill="#E8E4DA"/>
+  <rect x="760" y="150" width="440" height="520" fill="none" stroke="#1C3147" opacity="0.18"/>
+  <path d="M 760 670 Q 980 510 1200 670" fill="none" stroke="#7A93A8" opacity="0.4"/>
+  <text x="640.0" y="760" text-anchor="middle" fill="#1C3147" font-family="ui-monospace, monospace" font-size="16" letter-spacing="0.16em">[ PROJECT SCREENSHOT 03 ]</text>
+  <text x="640.0" y="784" text-anchor="middle" fill="#6A6F76" font-family="ui-monospace, monospace" font-size="11" letter-spacing="0.12em">project 01 · replace with your capture</text>
+
+</svg>

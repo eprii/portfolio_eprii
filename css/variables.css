@@ -1,0 +1,92 @@
+/* Design tokens — change colours here, not throughout the stylesheets. */
+
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");
+
+:root {
+  /* Surfaces */
+  --color-background: #f3f0e8;
+  --color-surface: #e8e4da;
+  --color-surface-raised: #f8f6f1;
+  --color-primary: #1c3147;
+  --color-secondary: #7a93a8;
+  --color-text: #1c1f24;
+  --color-muted: #6a6f76;
+  --color-accent: #b56a4a;
+  --color-border: color-mix(in oklab, var(--color-primary) 14%, transparent);
+  --color-border-strong: color-mix(in oklab, var(--color-primary) 28%, transparent);
+  --color-arc: color-mix(in oklab, var(--color-secondary) 55%, transparent);
+  --color-overlay: color-mix(in oklab, var(--color-background) 78%, transparent);
+
+  /* Type */
+  --font-sans: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  --text-2xl: clamp(2rem, 1.3rem + 2.4vw, 3.25rem);
+  --text-3xl: clamp(2.6rem, 1.4rem + 4vw, 4.75rem);
+
+  --leading-tight: 1.08;
+  --leading-snug: 1.25;
+  --leading-body: 1.6;
+
+  --tracking-tight: -0.03em;
+  --tracking-display: -0.035em;
+  --tracking-wide: 0.14em;
+  --tracking-meta: 0.16em;
+
+  /* Space */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  --pad-x: clamp(20px, 5vw, 72px);
+  --section-y: clamp(4.5rem, 10vw, 8.5rem);
+  --content: 1180px;
+  --nav-offset: 108px;
+
+  /* Radius — concentric: outer = inner + padding */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --motion-stagger: 40ms;
+  --motion-micro: 80ms;
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+  --motion-medium: 350ms;
+  --motion-slow: 400ms;
+  --motion-emphasis: 500ms;
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --shadow-nav: 0 10px 40px color-mix(in oklab, var(--color-primary) 8%, transparent);
+  --hairline: 1px solid var(--color-border);
+
+  --focus: 2px solid var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-stagger: 0ms;
+    --motion-micro: 0ms;
+    --motion-quick: 0ms;
+    --motion-fast: 0ms;
+    --motion-medium: 0ms;
+    --motion-slow: 0ms;
+    --motion-emphasis: 0ms;
+  }
+}
