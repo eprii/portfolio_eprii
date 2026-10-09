@@ -10,8 +10,6 @@
     />
     <meta name="theme-color" content="#F3F0E8" />
     <link rel="icon" type="image/svg+xml" href="assets/icons/mark.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/navbar.css" />
@@ -29,15 +27,15 @@
       <div class="cursor-label"></div>
     </div>
 
-    <div class="skeleton" id="skeleton" aria-hidden="true">
-      <div class="skeleton-nav"></div>
-      <div class="skeleton-hero">
-        <div class="skeleton-line short"></div>
-        <div class="skeleton-line wide"></div>
-        <div class="skeleton-line wide"></div>
-        <div class="skeleton-line mid"></div>
+    <div class="boot" id="boot" hidden role="status" aria-live="polite">
+      <div class="boot-console">
+        <div class="boot-heading"><span>EPRII.DEV / STARTING POINT</span><span aria-hidden="true">✦</span></div>
+        <p id="boot-status">Reading documents ...</p>
+        <div class="boot-track" aria-hidden="true"><span></span></div>
+        <span class="boot-note">logic + creativity</span>
       </div>
     </div>
+    <script src="js/boot.js"></script>
 
     <header class="site-header" id="site-header">
       <nav class="nav-pill" aria-label="Primary">
@@ -46,6 +44,8 @@
           <li><a href="#about">About</a></li>
           <li><a href="#work">Work</a></li>
           <li><a href="#experience">Experience</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#achievement">Achievement</a></li>
           <li><a href="#skills">Skills</a></li>
           <li><a href="#beyond">Beyond</a></li>
           <li><a href="#contact">Contact</a></li>
@@ -60,17 +60,19 @@
           <span class="nav-toggle-bars" aria-hidden="true"><span></span></span>
         </button>
       </nav>
-      <div class="nav-panel" id="nav-panel">
+      <div class="nav-panel" id="nav-panel" hidden>
         <a href="#about">About</a>
         <a href="#work">Work</a>
         <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#achievement">Achievement</a>
         <a href="#skills">Skills</a>
         <a href="#beyond">Beyond</a>
         <a href="#contact">Contact</a>
       </div>
     </header>
 
-    <main id="main">
+    <main id="main" tabindex="-1">
       <section class="hero" id="hero" aria-label="Introduction">
         <div class="hero-bg" aria-hidden="true">
           <div class="hero-orb"></div>
@@ -96,7 +98,8 @@
           type="button"
           data-egg
           data-cursor="star"
-          aria-label="A small star"
+          aria-label="Play a small musical surprise"
+          aria-pressed="false"
         >
           ✦
         </button>
@@ -125,11 +128,11 @@
           </h1>
           <div class="hero-lede reveal reveal-delay-3">
             <p class="hero-role">Software engineering student. <br>Building, learning, experimenting.</p>
-            <p class="hero-verbs">Telkom Vocational School · Banjarbaru, Indonesia</p>
+            <p class="hero-verbs">Student at SMK Telkom Banjarbaru · Banjarbaru, Indonesia</p>
           </div>
           <div class="hero-actions reveal reveal-delay-4">
             <a class="btn btn-primary" href="#work">View my work</a>
-            <a class="btn btn-ghost" href="#github-placeholder">GitHub</a>
+            <a class="btn btn-ghost" href="https://github.com/eprii" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
         </div>
       </section>
@@ -143,7 +146,7 @@
           <div class="about-grid">
             <div class="about-copy reveal">
               <p>
-                A software engineering student at Telkom Vocational School in Banjarbaru,
+                A software engineering student at SMK Telkom in Banjarbaru,
                 Indonesia. I think of myself simply as a programmer. Not an expert, not a
                 beginner. I'm someone who likes figuring things out.
               </p>
@@ -171,9 +174,12 @@
               <div class="photo-square" aria-hidden="true"></div>
               <div class="photo-frame">
                 <img
-                  src="assets/images/me.jpg"
-                  width="720"
-                  height="900"
+                  src="assets/images/PASFOTO_2.webp"
+                  alt="Akhmad Supriyadi"
+                  width="1400"
+                  height="1050"
+                  fetchpriority="high"
+                  decoding="async"
                 />
                 <span class="photo-meta">02.1</span>
               </div>
@@ -191,33 +197,34 @@
             <h2>Three things worth opening.</h2>
           </header>
           <p class="work-intro reveal">
-            Some projects I did at school and during internships. I like to think of them as "three things worth opening."
+            One school project and two projects from my internship.
           </p>
 
           <div class="project-grid">
-            <article class="project reveal">
+            <article class="project reveal" id="project-01">
               <div class="project-top">
                 <span class="project-num" aria-hidden="true">01</span>
                 <span class="project-cat">Academic</span>
               </div>
               <div class="project-logo">
-                <img src="assets/projects/project-01/logo.png" alt="Project logo placeholder" width="200" height="200" />
+                <img src="assets/projects/project-01/logo.webp" alt="SahabatSatwa logo" width="512" height="512" />
               </div>
-              <h3><span class="placeholder-token">SahabatSatwa</span></h3>
-              <p class="project-desc"><span class="placeholder-token">SahabatSatwa is a mobile application for discovering zoos and wildlife destinations. It helps users find reliable information about destinations, including locations, descriptions, ratings, reviews, and directions.</span></p>
+              <h3>SahabatSatwa</h3>
+              <p class="project-desc">A mobile app for finding zoos and wildlife destinations, with locations, descriptions, ratings, reviews, and directions.</p>
               <div class="viewer" data-viewer>
-                <div class="viewer-stage">
-                  <img class="is-active" src="assets/projects/project-01/screenshot-01-placeholder.svg" alt="Project 01 screenshot 1 placeholder" width="1280" height="800" data-cursor="view" />
-                  <img src="assets/projects/project-01/screenshot-02-placeholder.svg" alt="Project 01 screenshot 2 placeholder" width="1280" height="800" data-cursor="view" />
-                  <img src="assets/projects/project-01/screenshot-03-placeholder.svg" alt="Project 01 screenshot 3 placeholder" width="1280" height="800" data-cursor="view" />
-                </div>
+                <a class="viewer-stage" href="assets/projects/project-01/screenshot-01.webp" data-open-viewer aria-label="Open SahabatSatwa screenshot">
+                  <img class="is-active" src="assets/projects/project-01/screenshot-01.webp" alt="SahabatSatwa application preview" width="1920" height="1080" data-cursor="view" />
+                  <!-- TODO: add this file, then uncomment. <img src="assets/projects/project-01/screenshot-02.webp" alt="Project 01 screenshot 2" width="1280" height="800" data-cursor="view" /> -->
+                  <!-- TODO: add this file, then uncomment. <img src="assets/projects/project-01/screenshot-03.webp" alt="Project 01 screenshot 3" width="1280" height="800" data-cursor="view" /> -->
+                <span class="viewer-open" aria-hidden="true">Open screenshot ↗</span>
+                </a>
                 <div class="viewer-controls">
-                  <span class="viewer-index" aria-live="polite">01 / 03</span>
+                  <span class="viewer-index" aria-live="polite">01 / 01</span>
                   <div class="viewer-nav">
-                    <button class="viewer-btn" type="button" data-prev aria-label="Previous screenshot">
+                    <button class="viewer-btn" type="button" data-prev disabled aria-label="Previous screenshot">
                       <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M9 2 L4 7 L9 12" stroke="currentColor" stroke-width="1.2"/></svg>
                     </button>
-                    <button class="viewer-btn" type="button" data-next aria-label="Next screenshot">
+                    <button class="viewer-btn" type="button" data-next disabled aria-label="Next screenshot">
                       <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2 L10 7 L5 12" stroke="currentColor" stroke-width="1.2"/></svg>
                     </button>
                   </div>
@@ -227,32 +234,34 @@
                 <li>Flutter</li>
                 <li>Firebase</li>
               </ul>
-              <a class="project-source" href="#project-01-source">View source ↗</a>
+              <span class="project-source source-pending" data-source-placeholder="#project-01-source">Source link pending</span>
+              <!-- TODO: replace with a .project-source anchor to [PROJECT_01_SOURCE_URL]. -->
             </article>
 
-            <article class="project reveal reveal-delay-1">
+            <article class="project reveal reveal-delay-1" id="project-02">
               <div class="project-top">
                 <span class="project-num" aria-hidden="true">02</span>
                 <span class="project-cat">Internship</span>
               </div>
               <div class="project-logo">
-                <img src="assets/projects/project-02/logo.png" alt="Project logo placeholder" width="200" height="200" />
+                <img src="assets/projects/project-02/logo.webp" alt="BullCare logo" width="512" height="512" />
               </div>
-              <h3><span class="placeholder-token">BullCare</span></h3>
-              <p class="project-desc"><span class="placeholder-token">BullCare is a digital application designed to support the management and care of bulls at the Artificial Insemination Centre (Balai Inseminasi Buatan) in South Kalimantan. It digitises records of various maintenance activities, including feeding, health checks, sanitation, weighing, measuring, treatment, and semen collection.</span></p>
+              <h3>BullCare</h3>
+              <p class="project-desc">An app for recording bull care at Balai Inseminasi Buatan, South Kalimantan: feeding, health checks, sanitation, weighing, measuring, treatment, and semen collection.</p>
               <div class="viewer" data-viewer>
-                <div class="viewer-stage">
-                  <img class="is-active" src="assets/projects/project-02/screenshot-01-placeholder.svg" alt="Project 02 screenshot 1 placeholder" width="1280" height="800" data-cursor="view" />
-                  <img src="assets/projects/project-02/screenshot-02-placeholder.svg" alt="Project 02 screenshot 2 placeholder" width="1280" height="800" data-cursor="view" />
-                  <img src="assets/projects/project-02/screenshot-03-placeholder.svg" alt="Project 02 screenshot 3 placeholder" width="1280" height="800" data-cursor="view" />
-                </div>
+                <a class="viewer-stage" href="assets/projects/project-02/screenshot-01.webp" data-open-viewer aria-label="Open BullCare screenshot">
+                  <img class="is-active" src="assets/projects/project-02/screenshot-01.webp" alt="BullCare application preview" width="1920" height="1080" data-cursor="view" />
+                  <!-- TODO: add this file, then uncomment. <img src="assets/projects/project-02/screenshot-02.webp" alt="Project 02 screenshot 2" width="1280" height="800" data-cursor="view" /> -->
+                  <!-- TODO: add this file, then uncomment. <img src="assets/projects/project-02/screenshot-03.webp" alt="Project 02 screenshot 3" width="1280" height="800" data-cursor="view" /> -->
+                <span class="viewer-open" aria-hidden="true">Open screenshot ↗</span>
+                </a>
                 <div class="viewer-controls">
-                  <span class="viewer-index" aria-live="polite">01 / 03</span>
+                  <span class="viewer-index" aria-live="polite">01 / 01</span>
                   <div class="viewer-nav">
-                    <button class="viewer-btn" type="button" data-prev aria-label="Previous screenshot">
+                    <button class="viewer-btn" type="button" data-prev disabled aria-label="Previous screenshot">
                       <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M9 2 L4 7 L9 12" stroke="currentColor" stroke-width="1.2"/></svg>
                     </button>
-                    <button class="viewer-btn" type="button" data-next aria-label="Next screenshot">
+                    <button class="viewer-btn" type="button" data-next disabled aria-label="Next screenshot">
                       <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2 L10 7 L5 12" stroke="currentColor" stroke-width="1.2"/></svg>
                     </button>
                   </div>
@@ -262,32 +271,34 @@
                 <li>Flutter</li>
                 <li>Firebase</li>
               </ul>
-              <a class="project-source" href="#project-02-source">View source ↗</a>
+              <span class="project-source source-pending" data-source-placeholder="#project-02-source">Source link pending</span>
+              <!-- TODO: replace with a .project-source anchor to [PROJECT_02_SOURCE_URL]. -->
             </article>
 
-            <article class="project reveal reveal-delay-2">
+            <article class="project reveal reveal-delay-2" id="project-03">
               <div class="project-top">
                 <span class="project-num" aria-hidden="true">03</span>
                 <span class="project-cat">Internship</span>
               </div>
               <div class="project-logo">
-                <img src="assets/projects/project-03/logo.png" alt="Project logo placeholder" width="200" height="200" />
+                <img src="assets/projects/project-03/logo.webp" alt="SIAP logo" width="512" height="512" />
               </div>
-              <h3><span class="placeholder-token">SIAP</span></h3>
-              <p class="project-desc"><span class="placeholder-token">SIAP (Sistem Informasi-Administrasi Pegawai / Employee Administration Information System) is a mobile/web application developed to support employee administration at the Department of Plantation and Livestock Service in South Kalimantan. It helps employees manage and update personnel data and documents digitally in one integrated system.</span></p>
+              <h3>SIAP</h3>
+              <p class="project-desc">Sistem Informasi-Administrasi Pegawai: a mobile/web app for updating employee records and documents at Dinas Perkebunan dan Peternakan, South Kalimantan.</p>
               <div class="viewer" data-viewer>
-                <div class="viewer-stage">
-                  <img class="is-active" src="assets/projects/project-03/screenshot-01-placeholder.svg" alt="Project 03 screenshot 1 placeholder" width="1280" height="800" data-cursor="view" />
-                  <img src="assets/projects/project-03/screenshot-02-placeholder.svg" alt="Project 03 screenshot 2 placeholder" width="1280" height="800" data-cursor="view" />
-                  <img src="assets/projects/project-03/screenshot-03-placeholder.svg" alt="Project 03 screenshot 3 placeholder" width="1280" height="800" data-cursor="view" />
-                </div>
+                <a class="viewer-stage" href="assets/projects/project-03/screenshot-01.webp" data-open-viewer aria-label="Open SIAP screenshot">
+                  <img class="is-active" src="assets/projects/project-03/screenshot-01.webp" alt="SIAP application preview" width="1920" height="1080" data-cursor="view" />
+                  <!-- TODO: add this file, then uncomment. <img src="assets/projects/project-03/screenshot-02.webp" alt="Project 03 screenshot 2" width="1280" height="800" data-cursor="view" /> -->
+                  <!-- TODO: add this file, then uncomment. <img src="assets/projects/project-03/screenshot-03.webp" alt="Project 03 screenshot 3" width="1280" height="800" data-cursor="view" /> -->
+                <span class="viewer-open" aria-hidden="true">Open screenshot ↗</span>
+                </a>
                 <div class="viewer-controls">
-                  <span class="viewer-index" aria-live="polite">01 / 03</span>
+                  <span class="viewer-index" aria-live="polite">01 / 01</span>
                   <div class="viewer-nav">
-                    <button class="viewer-btn" type="button" data-prev aria-label="Previous screenshot">
+                    <button class="viewer-btn" type="button" data-prev disabled aria-label="Previous screenshot">
                       <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M9 2 L4 7 L9 12" stroke="currentColor" stroke-width="1.2"/></svg>
                     </button>
-                    <button class="viewer-btn" type="button" data-next aria-label="Next screenshot">
+                    <button class="viewer-btn" type="button" data-next disabled aria-label="Next screenshot">
                       <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5 2 L10 7 L5 12" stroke="currentColor" stroke-width="1.2"/></svg>
                     </button>
                   </div>
@@ -298,8 +309,13 @@
                 <li>Firebase</li>
                 <li>Supabase</li>
               </ul>
-              <a class="project-source" href="#project-03-source">View source ↗</a>
+              <span class="project-source source-pending" data-source-placeholder="#project-03-source">Source link pending</span>
+              <!-- TODO: replace with a .project-source anchor to [PROJECT_03_SOURCE_URL]. -->
             </article>
+          </div>
+          <div class="work-more reveal">
+            <p>Want to see more?</p>
+            <a class="btn btn-ghost" href="https://github.com/eprii" target="_blank" rel="noopener noreferrer">Explore my GitHub <span aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
           </div>
         </div>
       </section>
@@ -312,37 +328,130 @@
           </header>
           <ol class="timeline">
             <li class="timeline-item reveal">
-              <span class="timeline-when"><span class="placeholder-token">JULY - OCTOBER 2026</span></span>
+              <div class="timeline-when"><span>6 July - 23 October</span><span>2026</span><span class="timeline-period">Full internship</span></div>
               <span class="timeline-mark" aria-hidden="true"></span>
               <div class="timeline-body">
                 <h3 class="timeline-org">Dinas Perkebunan dan Peternakan</h3>
                 <p class="timeline-role"><span class="placeholder-token">BACK-END, FRONT-END, QA</span></p>
-                <p class="timeline-copy"><span class="placeholder-token">[DESCRIPTION]</span></p>
-                <p class="timeline-related">Related project · <span class="placeholder-token">SIAP</span></p>
-              </div>
-            </li>
-            <li class="timeline-item reveal reveal-delay-1">
-              <span class="timeline-when"><span class="placeholder-token">AUGUST 2026</span></span>
-              <span class="timeline-mark" aria-hidden="true"></span>
-              <div class="timeline-body">
-                <h3 class="timeline-org">Balai Inseminasi Buatan</h3>
-                <p class="timeline-role"><span class="placeholder-token">REQUIREMENT ANALYST, BACK-END, FRONT-END, QA</span></p>
-                <p class="timeline-copy"><span class="placeholder-token">[DESCRIPTION]</span></p>
-                <p class="timeline-related">Related project · <span class="placeholder-token">BullCare</span></p>
+                <p class="timeline-copy">My main placement throughout the internship, with a temporary placement at Balai Inseminasi Buatan during the same program.</p>
+                <p class="timeline-related">Project at the main office · <a href="#project-03">SIAP ↗</a></p>
+                <ol class="placement-timeline" aria-label="Placement within this internship">
+                  <li class="placement">
+                    <p class="placement-label">Within the same internship. Technical Implementation Unit  placement</p>
+                    <p class="timeline-when">3 August - 1 September 2026</p>
+                    <h4>Balai Inseminasi Buatan</h4>
+                    <p class="timeline-role"><span class="placeholder-token">REQUIREMENT ANALYST, BACK-END, FRONT-END, QA</span></p>
+                    <p class="timeline-copy">A temporary placement at Balai Inseminasi Buatan, a technical implementation unit of Dinas Perkebunan dan Peternakan, during the same internship program.</p>
+                    <p class="timeline-related">Placement project · <a href="#project-02">BullCare ↗</a></p>
+                  </li>
+                </ol>
               </div>
             </li>
           </ol>
         </div>
       </section>
 
+      <section class="section" id="education">
+        <div class="wrap">
+          <header class="section-header reveal">
+            <span class="section-index">05 / Education</span>
+            <h2>Where I learn.</h2>
+          </header>
+          <ol class="education-list">
+            <li class="education-entry reveal">
+              <p class="education-period"><span class="placeholder-token">2024 - Present</span></p>
+              <div>
+                <h3>SMK Telkom Banjarbaru</h3>
+                <p><span class="placeholder-token">Software and Game Development</span></p>
+                <p class="education-location"><span class="placeholder-token">Banjarbaru, Indonesia</span></p>
+              </div>
+              <a href="#" class="education-link" aria-label="View details for SMK Telkom Banjarbaru">
+                <span class="education-mark" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li class="education-entry reveal">
+              <p class="education-period"><span class="placeholder-token">2021 - 2024</span></p>
+              <div>
+                <h3>SMP Negeri 5 Banjarbaru</h3>
+                <p><span class="placeholder-token">Junior High School</span></p>
+                <p class="education-location"><span class="placeholder-token">Banjarbaru, Indonesia</span></p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section" id="achievement">
+        <div class="wrap">
+          <header class="section-header reveal">
+            <span class="section-index">06 / Achievement</span>
+            <h2>Certificates &amp; milestones.</h2>
+          </header>
+          <article class="credential credential-featured reveal" id="unity-credential">
+            <div class="credential-assets">
+              <div class="certificate-slot"><span aria-hidden="true"></span><p>
+                <a href="assets/certificates/UNITY_CERTIFIED_USER_PROGRAMMER.webp" data-lightbox data-caption="Unity Certified User Programmer">
+                     <img src="assets/certificates/UNITY_CERTIFIED_USER_PROGRAMMER.webp" alt="Unity Certified User Programmer certificate" loading="lazy" />
+                   </a>
+                  </p></div>
+              <div class="badge-slot"><span>
+                <small>Official<br>Badge</small><br><br>
+                <img src="assets/certificates/unity-certified-user-programmer-badge.png" alt="Unity Certified User Programmer badge" loading="lazy" />
+                
+              </span></div>
+              <!-- TODO: replace slots with your supplied certificate and official badge.
+                   Image example (uncomment only after adding the asset):
+                   <a href="assets/certificates/unity-certificate.webp" data-lightbox data-caption="Unity Certified User Programmer">
+                     <img src="assets/certificates/unity-certificate.webp" alt="Unity Certified User Programmer certificate" loading="lazy" />
+                   </a>
+              -->
+            </div>
+            <div class="credential-copy">
+              <p class="credential-category">International certification</p>
+              <h3>Unity: Certified User Programmer</h3>
+              <dl class="credential-details">
+                <div><dt>Issued</dt><dd><span class="placeholder-token">21<sup>st</sup> of September, 2026</span></dd></div>
+                <div><dt>Credential</dt><dd><span class="placeholder-token">wEvhF-48E2</span></dd></div>
+              </dl>
+            </div>
+          </article>
+          <div class="competition-list">
+            <article class="credential competition-entry reveal">
+              <div class="competition-number" aria-hidden="true">01</div>
+              <div class="credential-copy">
+                <p class="credential-category">Competition</p>
+                <h3><span class="placeholder-token">1<sup>st</sup> Champion Spelling Bee Competition</span></h3>
+                <p><span class="placeholder-token">English Competition</span></p>
+                <p class="credential-meta"><span class="placeholder-token">11<sup>th</sup> International Events, UIN Antasari Banjarmasin · 10-13 of November, 2025</span></p>
+              </div>
+              <div class="certificate-slot certificate-slot-small"><p><a href="assets/certificates/first-spelling-bee.webp" data-lightbox data-caption="1st Champion Spelling Bee Competition">
+                     <img src="assets/certificates/first-spelling-bee.webp" alt="1st Champion Spelling Bee Competition certificate" loading="lazy" />
+                   </a></p></div>
+            </article>
+            <article class="credential competition-entry reveal">
+              <div class="competition-number" aria-hidden="true">02</div>
+              <div class="credential-copy">
+                <p class="credential-category">Competition</p>
+                <h3><span class="placeholder-token">2<sup>nd</sup> Champion Spelling Bee Competition</span></h3>
+                <p><span class="placeholder-token">English Competition</span></p>
+                <p class="credential-meta"><span class="placeholder-token">SMK Telkom Banjarbaru · 29 of April - 3 of May, 2024</span></p>
+              </div>
+              <div class="certificate-slot certificate-slot-small"><p><a href="assets/certificates/sec-spelling-bee.webp" data-lightbox data-caption="2nd Champion Spelling Bee Competition">
+                     <img src="assets/certificates/sec-spelling-bee.webp" alt="2nd Champion Spelling Bee Competition certificate" loading="lazy" />
+                   </a></p></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="section" id="skills">
         <div class="wrap">
           <header class="section-header reveal">
-            <span class="section-index">05 / Skills</span>
+            <span class="section-index">07 / Skills</span>
             <h2>What's underneath the code.</h2>
           </header>
           <p class="skills-lede reveal">
-            I don't just write code. I like figuring out what's underneath it.
+            I don't just write code, but also figuring out what's underneath it.
           </p>
           <div class="skill-grid">
             <article class="skill-block reveal">
@@ -351,12 +460,13 @@
                 <li>HTML</li>
                 <li>CSS</li>
                 <li>JavaScript</li>
+                <li>C#</li>
                 <li>Dart</li>
                 <li>Flutter</li>
                 <li>Laravel</li>
               </ul>
-              <button class="skill-toggle" type="button" aria-expanded="false">Note</button>
-              <p class="skill-note">Some skills that I have developed over time.</p>
+              <button class="skill-toggle" type="button" hidden aria-expanded="false">Note</button>
+              <p class="skill-note">For building websites and mobile apps.</p>
             </article>
             <article class="skill-block reveal reveal-delay-1">
               <h3>Databases & Services</h3>
@@ -365,8 +475,8 @@
                 <li>MySQL</li>
                 <li>Supabase</li>
               </ul>
-              <button class="skill-toggle" type="button" aria-expanded="false">Note</button>
-              <p class="skill-note">Experience with various database systems and cloud services.</p>
+              <button class="skill-toggle" type="button" hidden aria-expanded="false">Note</button>
+              <p class="skill-note">For storing and working with application data.</p>
             </article>
             <article class="skill-block reveal reveal-delay-2">
               <h3>Systems</h3>
@@ -378,8 +488,8 @@
                 <li>Custom ROMs</li>
                 <li>Other operating systems</li>
               </ul>
-              <button class="skill-toggle" type="button" aria-expanded="false">Note</button>
-              <p class="skill-note">Experience with various operating systems and their unique characteristics.</p>
+              <button class="skill-toggle" type="button" hidden aria-expanded="false">Note</button>
+              <p class="skill-note">Systems I use and like to experiment with.</p>
             </article>
             <article class="skill-block reveal reveal-delay-3">
               <h3>Tools</h3>
@@ -389,9 +499,10 @@
                 <li>VS Code</li>
                 <li>Android Studio</li>
                 <li>PyCharm</li>
+                <li>Unity</li>
               </ul>
-              <button class="skill-toggle" type="button" aria-expanded="false">Note</button>
-              <p class="skill-note">Familiarity with various development tools and their workflows.</p>
+              <button class="skill-toggle" type="button" hidden aria-expanded="false">Note</button>
+              <p class="skill-note">Editors, IDEs, and version control for my projects.</p>
             </article>
           </div>
         </div>
@@ -399,49 +510,77 @@
 
       <section class="section" id="beyond">
         <div class="wrap">
-          <header class="section-header reveal">
-            <span class="section-index">06 / Beyond</span>
+          <header class="section-header reveal beyond-heading">
+            <span class="margin-heart" aria-hidden="true">♡</span>
+            <span class="section-index">08 / Beyond</span>
             <h2>Outside the editor.</h2>
           </header>
           <div class="beyond-grid">
-            <div class="gallery" data-cursor-root="view">
+            <div class="gallery" aria-label="Photo gallery">
               <figure class="reveal">
-                <img src="assets/images/gallery-01.jpg" alt="Gallery photo 01" width="1200" height="900" data-cursor="view" />
-                <figcaption>// me, myself, and i</figcaption>
+                <a href="assets/images/gallery-01.webp" data-lightbox aria-label="Open photo 01" aria-describedby="gallery-caption-01" data-cursor="view">
+                <picture>
+                  <source media="(max-width: 1024px)" srcset="assets/images/gallery-01-wide.webp" width="1029" height="686" />
+                  <img src="assets/images/gallery-01.webp" alt="Mirror portrait in a white T-shirt" width="1029" height="1600" data-cursor="view" loading="lazy" decoding="async" />
+                </picture>
+                
+                  <span class="gallery-open" aria-hidden="true">↗</span>
+                </a>
+                <figcaption id="gallery-caption-01">// me, myself, and i</figcaption>
               </figure>
               <figure class="reveal reveal-delay-1">
-                <img src="assets/images/gallery-02.jpg" alt="Gallery photo 02" width="700" height="900" data-cursor="view" />
-                <figcaption>[CAPTION 02]</figcaption>
+                <a href="assets/images/gallery-02.webp" data-lightbox aria-label="Open photo 02" aria-describedby="gallery-caption-02" data-cursor="view">
+                <img src="assets/images/gallery-02.webp" alt="Group photo outdoors beside a banner" width="1400" height="1050" data-cursor="view" loading="lazy" decoding="async" />
+                
+                  <span class="gallery-open" aria-hidden="true">↗</span>
+                </a>
+                <figcaption id="gallery-caption-02">// me and the employees of balai inseminasi buatan, 2026</figcaption>
               </figure>
               <figure class="reveal reveal-delay-2">
-                <img src="assets/images/gallery-03.jpg" alt="Gallery photo 03" width="800" height="800" data-cursor="view" />
-                <figcaption>[CAPTION 03]</figcaption>
+                <a href="assets/images/gallery-03.webp" data-lightbox aria-label="Open photo 03" aria-describedby="gallery-caption-03" data-cursor="view">
+                <img src="assets/images/gallery-03.webp" alt="People looking at a wall-mounted screen" width="1400" height="788" data-cursor="view" loading="lazy" decoding="async" />
+                
+                  <span class="gallery-open" aria-hidden="true">↗</span>
+                </a>
+                <figcaption id="gallery-caption-03">// me and my team at balai inseminasi buatan, 2026</figcaption>
               </figure>
               <figure class="reveal">
-                <img src="assets/images/gallery-04.jpg" alt="Gallery photo 04" width="1200" height="700" data-cursor="view" />
-                <figcaption>[CAPTION 04]</figcaption>
+                <a href="assets/images/gallery-04.webp" data-lightbox aria-label="Open photo 04" aria-describedby="gallery-caption-04" data-cursor="view">
+                <img src="assets/images/gallery-04.webp" alt="People gathered around a meeting table" width="1600" height="900" data-cursor="view" loading="lazy" decoding="async" />
+                
+                  <span class="gallery-open" aria-hidden="true">↗</span>
+                </a>
+                <figcaption id="gallery-caption-04">// me and my team presenting our SIAP project, 2026</figcaption>
               </figure>
               <figure class="reveal reveal-delay-1">
-                <img src="assets/images/gallery-05.jpg" alt="Gallery photo 05" width="800" height="1100" data-cursor="view" />
-                <figcaption>[CAPTION 05]</figcaption>
+                <a href="assets/images/gallery-05.webp" data-lightbox aria-label="Open photo 05" aria-describedby="gallery-caption-05" data-cursor="view">
+                <img src="assets/images/gallery-05.webp" alt="Group photo indoors holding a document" width="1400" height="1050" data-cursor="view" loading="lazy" decoding="async" />
+                
+                  <span class="gallery-open" aria-hidden="true">↗</span>
+                </a>
+                <figcaption id="gallery-caption-05">// me and my team accepting our certificate at balai inseminasi buatan, 2026</figcaption>
               </figure>
               <figure class="reveal reveal-delay-2">
-                <img src="assets/images/gallery-06.jpg" alt="Gallery photo 06" width="900" height="900" data-cursor="view" />
-                <figcaption>[CAPTION 06]</figcaption>
+                <a href="assets/images/gallery-06.webp" data-lightbox aria-label="Open photo 06" aria-describedby="gallery-caption-06" data-cursor="view">
+                <img src="assets/images/gallery-06.webp" alt="Three people taking a mirror photo" width="1400" height="788" data-cursor="view" loading="lazy" decoding="async" />
+                
+                  <span class="gallery-open" aria-hidden="true">↗</span>
+                </a>
+                <figcaption id="gallery-caption-06">// me and my bestie</figcaption>
               </figure>
             </div>
             <dl class="little-things reveal">
               <div class="little-item">
                 <dt>Currently listening to</dt>
-                <dd><span class="placeholder-token">Ariana Grande - petal</span></dd>
+                <dd><span class="placeholder-token">Conan Gray - Vodka Cranberry</span></dd>
               </div>
               <div class="little-item">
                 <dt>Recently watched</dt>
-                <dd><span class="placeholder-token">Wicked: For Good</span></dd>
+                <dd><span class="placeholder-token">Law & Order: SVU</span></dd>
               </div>
               <div class="little-item">
                 <dt>Currently into</dt>
-                <dd><span class="placeholder-token">Shopping</span></dd>
+                <dd><span class="placeholder-token">Learning Unity</span></dd>
               </div>
               <div class="little-item">
                 <dt>Favourite things to do</dt>
@@ -456,9 +595,9 @@
         <div class="wrap">
           <div class="contact-layout">
             <header class="section-header reveal">
-              <span class="section-index">07 / Contact</span>
+              <span class="section-index">09 / Contact</span>
               <h2 class="contact-title">Want to talk?</h2>
-              <p>A short note is enough. No form, no funnel.</p>
+              <p>Send me a note by email or WhatsApp.</p>
             </header>
             <div class="reveal reveal-delay-1">
               <dl class="contact-list">
@@ -472,7 +611,7 @@
                 <div>
                   <dt>WhatsApp</dt>
                   <dd>
-                    <a href="https://wa.me/447737232531" target="_blank" rel="noopener noreferrer"><span class="placeholder-token">+44 7737 232531</span></a>
+                    <a href="https://wa.me/gabrieladkins_" target="_blank" rel="noopener noreferrer"><span class="placeholder-token">Click me</span></a>
                   </dd>
                 </div>
                 <div>
@@ -500,10 +639,10 @@
       <div class="wrap">
         <div class="footer-top">
           <div>
-            <p class="kicker">08 / Footer · Still curious?</p>
+            <p class="kicker">10 / Footer · Still curious?</p>
             <h2 class="footer-title">Somewhere over the rainbow, between logic and creativity.</h2>
           </div>
-          <a class="footer-cta" href="#contact">Let's connect</a>
+          <a class="footer-cta" href="#contact">Send me a note</a>
         </div>
         <div class="footer-bottom">
           <div>
@@ -529,11 +668,30 @@
       </svg>
     </button>
 
-    <!--
-      Easter-egg audio lives at assets/audio/easter-egg-audio-placeholder.mp3
-      Replace it with audio you have permission or a licence to use.
-      Do not embed Judy Garland's recording (or any copyrighted track) unless you have the rights.
-    -->
+    <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title" aria-describedby="lightbox-caption">
+      <div class="lightbox-shell">
+        <div class="lightbox-header">
+          <h2 id="lightbox-title">Photo gallery</h2>
+          <button class="lightbox-close" type="button" aria-label="Close image viewer" autofocus>×</button>
+        </div>
+        <figure class="lightbox-figure">
+          <div class="lightbox-stage">
+            <img id="lightbox-image" alt="" />
+            <p class="lightbox-message" id="lightbox-message" role="status" hidden></p>
+          </div>
+          <figcaption id="lightbox-caption"></figcaption>
+        </figure>
+        <div class="lightbox-footer">
+          <span id="lightbox-count" class="mono" aria-live="polite" aria-atomic="true"></span>
+          <span class="lightbox-hint">← → / swipe</span>
+          <div class="lightbox-controls">
+            <button class="viewer-btn" type="button" data-lightbox-prev aria-label="Previous image">←</button>
+            <button class="viewer-btn" type="button" data-lightbox-next aria-label="Next image">→</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
     <script src="js/navigation.js" defer></script>
     <script src="js/animations.js" defer></script>
     <script src="js/cursor.js" defer></script>

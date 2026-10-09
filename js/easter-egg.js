@@ -1,16 +1,5 @@
 (() => {
-  /*
-   * Hidden interaction. Do not advertise it in the UI.
-   *
-   * AUDIO: replace assets/audio/easter-egg-audio-placeholder.mp3 with a clip
-   * you have permission or a licence to use. Do NOT use Judy Garland's
-   * recording of "Somewhere Over the Rainbow" (or any copyrighted recording)
-   * unless you hold the rights.
-   *
-   * The current file is an original short chime generated for development.
-   * If the mp3 is missing, a quiet Web Audio fallback plays instead so the
-   * interaction still works while you swap the file in.
-   */
+  // Keep the existing audio asset; playback only follows an explicit click.
   const key = "__efriEgg";
   window[key]?.disconnect();
 
@@ -64,11 +53,23 @@
   trigger.addEventListener(
     "click",
     () => {
+      if (document.body.classList.contains("egg-active")) {
+        window.clearTimeout(timer);
+        document.body.classList.remove("egg-active");
+        trigger.setAttribute("aria-pressed", "false");
+        trigger.setAttribute("aria-label", "Play a small musical surprise");
+        if (audio) { audio.pause(); audio.currentTime = 0; }
+        return;
+      }
+      trigger.setAttribute("aria-pressed", "true");
+      trigger.setAttribute("aria-label", "Stop the musical surprise");
       document.body.classList.add("egg-active");
       play();
       window.clearTimeout(timer);
       timer = window.setTimeout(() => {
         document.body.classList.remove("egg-active");
+        trigger.setAttribute("aria-pressed", "false");
+        trigger.setAttribute("aria-label", "Play a small musical surprise");
         if (audio) {
           audio.pause();
           audio.currentTime = 0;

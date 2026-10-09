@@ -1,38 +1,23 @@
 (() => {
-  const key = "__efriAnim";
-  window[key]?.disconnect();
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduced.matches || !('IntersectionObserver' in window)) return;
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.remove('is-pending');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.04 });
 
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const nodes = [...document.querySelectorAll(".reveal")];
-
-  if (reduced) {
-    nodes.forEach((el) => el.classList.add("is-in"));
-    window[key] = { disconnect() {} };
-    return;
-  }
-
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-in");
-        io.unobserve(entry.target);
-      });
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-  );
-
-  nodes.forEach((el) => {
-    if (el.closest(".hero")) {
-      requestAnimationFrame(() => el.classList.add("is-in"));
-      return;
-    }
-    io.observe(el);
+  document.querySelectorAll('.reveal').forEach(element => {
+    // Already-visible content stays visible, including when arriving through a deep link.
+    if (element.getBoundingClientRect().top < innerHeight) return;
+    element.classList.add('is-pending');
+    observer.observe(element);
   });
-
-  window[key] = {
-    disconnect() {
-      io.disconnect();
-    },
-  };
+  reduced.addEventListener('change', event => {
+    if (!event.matches) return;
+    observer.disconnect();
+    document.querySelectorAll('.is-pending').forEach(element => element.classList.remove('is-pending'));
+  });
 })();

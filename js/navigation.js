@@ -1,98 +1,113 @@
 (() => {
-  const key = "__efriNav";
-  window[key]?.disconnect();
+  const header = document.getElementById('site-header');
+  const toggle = document.querySelector('.nav-toggle');
+  const panel = document.getElementById('nav-panel');
+  const progress = document.getElementById('scroll-progress');
+  const backTop = document.getElementById('back-top');
+  const links = [...document.querySelectorAll('.nav-brand, .nav-list a, .nav-panel a')];
+  const sections = [...document.querySelectorAll('main section[id]')];
+  const mobile = matchMedia('(max-width: 980px)');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let scrollFrame = 0;
+  let activeId = '';
 
-  const header = document.getElementById("site-header");
-  const toggle = document.querySelector(".nav-toggle");
-  const panel = document.getElementById("nav-panel");
-  const progress = document.getElementById("scroll-progress");
-  const backTop = document.getElementById("back-top");
-  const links = [...document.querySelectorAll(".nav-list a, .nav-panel a")];
-  const sections = [...document.querySelectorAll("main section[id]")];
-  const ac = new AbortController();
-  const { signal } = ac;
-  const observers = [];
+  function closePanel(restoreFocus = false) {
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open menu');
+    panel.hidden = true;
+    if (restoreFocus) toggle.focus();
+  }
 
-  const closePanel = () => {
-    if (!toggle || !panel) return;
-    toggle.setAttribute("aria-expanded", "false");
-    toggle.setAttribute("aria-label", "Open menu");
-    panel.classList.remove("is-open");
-  };
+  function clearance() {
+    return Math.ceil(header.getBoundingClientRect().bottom + 16);
+  }
 
-  toggle?.addEventListener(
-    "click",
-    () => {
-      const open = toggle.getAttribute("aria-expanded") === "true";
-      toggle.setAttribute("aria-expanded", String(!open));
-      toggle.setAttribute("aria-label", open ? "Open menu" : "Close menu");
-      panel?.classList.toggle("is-open", !open);
-    },
-    { signal }
-  );
+  function updateScroll() {
+    scrollFrame = 0;
+    if (document.body.classList.contains('has-open-lightbox')) return;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.width = `${max > 0 ? Math.min(100, scrollY / max * 100) : 0}%`;
+    header.classList.toggle('is-compact', scrollY > 24);
+    backTop.classList.toggle('is-visible', scrollY > innerHeight * 0.7);
+    backTop.tabIndex = scrollY > innerHeight * 0.7 ? 0 : -1;
+    const offset = clearance();
+    let current = sections[0].id;
+    sections.forEach(section => {
+      if (section.getBoundingClientRect().top <= offset + 48) current = section.id;
+    });
+    if (max > 0 && scrollY >= max - 2) current = 'contact';
+    if (current === activeId) return;
+    activeId = current;
+    links.forEach(link => {
+      const active = link.hash === `#${current}`;
+      link.classList.toggle('is-active', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
 
-  panel?.addEventListener(
-    "click",
-    (event) => {
-      if (event.target instanceof HTMLAnchorElement) closePanel();
-    },
-    { signal }
-  );
+  function queueScroll() {
+    if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll);
+  }
 
-  document.addEventListener(
-    "keydown",
-    (event) => {
-      if (event.key === "Escape") closePanel();
-    },
-    { signal }
-  );
+  function targetFromHash(hash) {
+    try { return document.getElementById(decodeURIComponent(hash.slice(1))); }
+    catch { return null; }
+  }
 
-  const onScroll = () => {
-    const doc = document.documentElement;
-    const max = doc.scrollHeight - doc.clientHeight;
-    const ratio = max > 0 ? doc.scrollTop / max : 0;
-    if (progress) progress.style.width = `${Math.min(1, Math.max(0, ratio)) * 100}%`;
-    header?.classList.toggle("is-compact", window.scrollY > 24);
-    backTop?.classList.toggle("is-visible", window.scrollY > window.innerHeight * 0.7);
-  };
+  function scrollToTarget(target, smooth = true, focus = false) {
+    const top = target.id === 'hero' || target.id === 'main' ? 0 : target.getBoundingClientRect().top + scrollY - clearance();
+    window.scrollTo({ top: Math.max(0, top), behavior: smooth && !reduced.matches ? 'smooth' : 'instant' });
+    if (focus) {
+      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    }
+  }
 
-  window.addEventListener("scroll", onScroll, { passive: true, signal });
-  onScroll();
+  function followHash() {
+    const target = targetFromHash(location.hash);
+    if (target) scrollToTarget(target, false);
+    queueScroll();
+  }
 
-  backTop?.addEventListener(
-    "click",
-    () => {
-      window.scrollTo({
-        top: 0,
-        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-      });
-    },
-    { signal }
-  );
-
-  const spy = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((e) => e.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible?.target?.id) return;
-      links.forEach((link) => {
-        const active = link.getAttribute("href") === `#${visible.target.id}`;
-        link.classList.toggle("is-active", active);
-        if (active) link.setAttribute("aria-current", "location");
-        else link.removeAttribute("aria-current");
-      });
-    },
-    { rootMargin: "-35% 0px -50% 0px", threshold: [0.1, 0.25, 0.5] }
-  );
-
-  sections.forEach((section) => spy.observe(section));
-  observers.push(spy);
-
-  window[key] = {
-    disconnect() {
-      ac.abort();
-      observers.forEach((o) => o.disconnect());
-    },
-  };
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    panel.hidden = !open;
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !panel.hidden) closePanel(true);
+  });
+  document.addEventListener('click', event => {
+    if (!header.contains(event.target)) closePanel();
+    const link = event.target.closest('a[href^="#"]');
+    if (!link || event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const target = targetFromHash(link.getAttribute('href'));
+    if (!target) return;
+    event.preventDefault();
+    closePanel();
+    if (location.hash !== link.hash) history.pushState(null, '', link.hash);
+    scrollToTarget(target, true, true);
+  });
+  document.addEventListener('focusin', event => {
+    if (!header.contains(event.target)) closePanel();
+  });
+  mobile.addEventListener('change', () => { closePanel(); queueScroll(); });
+  backTop.addEventListener('click', () => {
+    if (location.hash !== '#hero') history.pushState(null, '', '#hero');
+    scrollToTarget(sections[0], true, true);
+  });
+  window.addEventListener('scroll', queueScroll, { passive: true });
+  window.addEventListener('resize', queueScroll, { passive: true });
+  window.addEventListener('hashchange', followHash);
+  window.addEventListener('popstate', followHash);
+  header.classList.add('nav-ready');
+  closePanel();
+  updateScroll();
+  // Functions are initialized before resolving deep links; wait for final image/font layout.
+  if (location.hash) {
+    followHash();
+    window.addEventListener('load', followHash, { once: true });
+  }
 })();

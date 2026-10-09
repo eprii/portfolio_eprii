@@ -29,7 +29,7 @@
 
 .site-header.is-compact .nav-pill {
   padding: 4px 4px 4px 16px;
-  background: color-mix(in oklab, var(--color-background) 86%, transparent);
+  background: color-mix(in oklab, var(--color-background) 96%, transparent);
 }
 
 .nav-brand {
@@ -54,7 +54,10 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-muted);
-  padding: 8px 12px;
+  padding: 10px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   border-radius: var(--radius-pill);
   transition: color var(--motion-quick) var(--ease-out);
 }
@@ -65,12 +68,13 @@
 
 .nav-list a.is-active {
   color: var(--color-primary);
+  background: color-mix(in oklab, var(--color-secondary) 14%, transparent);
 }
 
 .nav-toggle {
   display: none;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-pill);
   align-items: center;
   justify-content: center;
@@ -132,6 +136,7 @@
   display: grid;
   place-items: center;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transform: translateY(8px);
   transition:
@@ -142,6 +147,7 @@
 
 .back-top.is-visible {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
   transform: none;
 }

@@ -1,6 +1,68 @@
 /* Design tokens — change colours here, not throughout the stylesheets. */
 
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/instrument-sans-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/instrument-sans-latin-500-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/instrument-sans-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/instrument-sans-latin-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/instrument-sans-latin-500-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/ibm-plex-mono-latin-400-italic.woff2") format("woff2");
+}
 
 :root {
   /* Surfaces */
@@ -10,7 +72,7 @@
   --color-primary: #1c3147;
   --color-secondary: #7a93a8;
   --color-text: #1c1f24;
-  --color-muted: #6a6f76;
+  --color-muted: #59616b;
   --color-accent: #b56a4a;
   --color-border: color-mix(in oklab, var(--color-primary) 14%, transparent);
   --color-border-strong: color-mix(in oklab, var(--color-primary) 28%, transparent);
@@ -50,9 +112,10 @@
   --space-9: 96px;
 
   --pad-x: clamp(20px, 5vw, 72px);
-  --section-y: clamp(4.5rem, 10vw, 8.5rem);
+  --section-y: clamp(3.5rem, 6.5vw, 5.75rem);
+  --section-y-top: 1.25rem;
   --content: 1180px;
-  --nav-offset: 108px;
+  --nav-offset: 90px;
 
   /* Radius — concentric: outer = inner + padding */
   --radius-xs: 4px;

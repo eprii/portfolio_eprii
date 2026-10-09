@@ -1,95 +1,188 @@
 (() => {
-  const key = "__efriMain";
-  window[key]?.disconnect();
+  const dialog = document.getElementById('lightbox');
+  const image = document.getElementById('lightbox-image');
+  const caption = document.getElementById('lightbox-caption');
+  const count = document.getElementById('lightbox-count');
+  const message = document.getElementById('lightbox-message');
+  const close = dialog.querySelector('.lightbox-close');
+  const previous = dialog.querySelector('[data-lightbox-prev]');
+  const next = dialog.querySelector('[data-lightbox-next]');
+  let photos = [];
+  let photoIndex = 0;
+  let opener = null;
+  let savedScroll = 0;
 
-  const ac = new AbortController();
-  const { signal } = ac;
-  const skeleton = document.getElementById("skeleton");
-  let skeletonTimer = 0;
+  function paintPhoto() {
+    const photo = photos[photoIndex];
+    image.hidden = true;
+    message.hidden = false;
+    message.textContent = 'Loading image…';
+    image.alt = photo.alt;
+    image.src = photo.src;
+    caption.textContent = photo.caption;
+    count.textContent = `${photoIndex + 1} / ${photos.length}`;
+    previous.disabled = next.disabled = photos.length < 2;
+    dialog.querySelector('.lightbox-hint').hidden = photos.length < 2;
+  }
 
-  const dismissSkeleton = () => {
-    if (!skeleton || skeleton.classList.contains("is-done")) return;
-    skeleton.classList.add("is-done");
-    skeletonTimer = window.setTimeout(() => skeleton.remove(), 420);
-  };
+  function openLightbox(collection, index, trigger, title) {
+    if (!collection.length) return;
+    if (typeof dialog.showModal !== 'function') {
+      window.location.href = collection[index].src;
+      return;
+    }
+    photos = collection;
+    photoIndex = index;
+    opener = trigger;
+    savedScroll = scrollY;
+    document.getElementById('lightbox-title').textContent = title;
+    paintPhoto();
+    dialog.showModal();
+    document.body.style.top = `-${savedScroll}px`;
+    document.body.classList.add('has-open-lightbox');
+    close.focus({ preventScroll: true });
+  }
 
-  if (document.readyState === "complete") dismissSkeleton();
-  else window.addEventListener("load", dismissSkeleton, { once: true, signal });
-  window.setTimeout(dismissSkeleton, 400);
+  function changePhoto(direction) {
+    photoIndex = (photoIndex + direction + photos.length) % photos.length;
+    paintPhoto();
+  }
 
-  document.body.classList.add("is-ready");
+  image.addEventListener('load', () => { image.hidden = false; message.hidden = true; });
+  image.addEventListener('error', () => {
+    image.hidden = true;
+    message.textContent = 'This image could not be loaded. Try another photo or close the viewer.';
+    message.hidden = false;
+  });
+  close.addEventListener('click', () => dialog.close());
+  previous.addEventListener('click', () => changePhoto(-1));
+  next.addEventListener('click', () => changePhoto(1));
+  dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+  dialog.addEventListener('close', () => {
+    document.body.classList.remove('has-open-lightbox');
+    document.body.style.removeProperty('top');
+    window.scrollTo({ top: savedScroll, behavior: 'instant' });
+    opener?.focus({ preventScroll: true });
+  });
+  dialog.addEventListener('keydown', event => {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault();
+      if (photos.length > 1) changePhoto(event.key === 'ArrowRight' ? 1 : -1);
+    }
+    if (event.key === 'Tab') {
+      const buttons = [...dialog.querySelectorAll('button:not(:disabled)')];
+      const first = buttons[0], last = buttons[buttons.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }
+    // Native dialog handles Escape and keeps the rest of the document inert.
+  });
 
-  const cleanups = [];
-
-  document.querySelectorAll("[data-viewer]").forEach((viewer) => {
-    const slides = [...viewer.querySelectorAll(".viewer-stage img")];
-    const indexEl = viewer.querySelector(".viewer-index");
-    const prev = viewer.querySelector("[data-prev]");
-    const next = viewer.querySelector("[data-next]");
-    let i = 0;
-    let startX = 0;
-
-    const paint = () => {
-      slides.forEach((img, n) => img.classList.toggle("is-active", n === i));
-      if (indexEl) {
-        indexEl.textContent = `${String(i + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+  function enableSwipe(surface, navigate) {
+    let start = null;
+    surface.addEventListener('touchstart', event => {
+      start = event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
+    }, { passive: true });
+    surface.addEventListener('touchend', event => {
+      if (!start || !event.changedTouches.length) return;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - start.x, dy = touch.clientY - start.y;
+      start = null;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+        navigate(dx < 0 ? 1 : -1);
+        // Suppress only the click generated by this swipe, not the next intentional tap.
+        surface.addEventListener('click', suppressClick, { capture: true, once: true });
+        setTimeout(() => surface.removeEventListener('click', suppressClick, true), 350);
       }
-    };
+    }, { passive: true });
+    surface.addEventListener('touchcancel', () => { start = null; }, { passive: true });
+    function suppressClick(event) { event.preventDefault(); event.stopImmediatePropagation(); }
+  }
+  enableSwipe(dialog.querySelector('.lightbox-stage'), direction => { if (photos.length > 1) changePhoto(direction); });
 
-    const go = (dir) => {
-      i = (i + dir + slides.length) % slides.length;
+  const galleryLinks = [...document.querySelectorAll('.gallery [data-lightbox]')];
+  const galleryPhotos = galleryLinks.map(link => ({
+    src: link.href,
+    alt: link.querySelector('img').alt,
+    caption: link.closest('figure').querySelector('figcaption').textContent.trim()
+  }));
+  galleryLinks.forEach((link, index) => {
+    link.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      openLightbox(galleryPhotos, index, link, 'Beyond / photo gallery');
+    });
+  });
+  document.querySelectorAll('.credential [data-lightbox]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      openLightbox([{ src: link.href, alt: link.querySelector('img')?.alt || '', caption: link.dataset.caption || '' }], 0, link, 'Certificate');
+    });
+  });
+
+  document.querySelectorAll('[data-viewer]').forEach(viewer => {
+    let slides = [...viewer.querySelectorAll('.viewer-stage img')];
+    let index = 0;
+    const stage = viewer.querySelector('.viewer-stage');
+    const label = viewer.querySelector('.viewer-index');
+    const prev = viewer.querySelector('[data-prev]');
+    const next = viewer.querySelector('[data-next]');
+    const title = viewer.closest('.project').querySelector('h3').textContent.trim();
+    function paint() {
+      slides.forEach((slide, n) => {
+        slide.classList.toggle('is-active', n === index);
+        slide.setAttribute('aria-hidden', String(n !== index));
+      });
+      label.textContent = slides.length ? `${String(index + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}` : 'Image unavailable';
+      prev.disabled = next.disabled = slides.length < 2;
+      stage.hidden = !slides.length;
+      if (slides.length) stage.href = slides[index].src;
+    }
+    function go(direction) {
+      if (slides.length < 2) return;
+      index = (index + direction + slides.length) % slides.length;
       paint();
-    };
-
-    prev?.addEventListener("click", () => go(-1), { signal });
-    next?.addEventListener("click", () => go(1), { signal });
-    viewer.addEventListener(
-      "touchstart",
-      (event) => {
-        startX = event.changedTouches[0]?.clientX ?? 0;
-      },
-      { passive: true, signal }
-    );
-    viewer.addEventListener(
-      "touchend",
-      (event) => {
-        const endX = event.changedTouches[0]?.clientX ?? startX;
-        const delta = endX - startX;
-        if (Math.abs(delta) > 40) go(delta < 0 ? 1 : -1);
-      },
-      { passive: true, signal }
-    );
-    viewer.addEventListener(
-      "keydown",
-      (event) => {
-        if (event.key === "ArrowLeft") go(-1);
-        if (event.key === "ArrowRight") go(1);
-      },
-      { signal }
-    );
-
-    viewer.setAttribute("tabindex", "0");
+    }
+    slides.forEach(slide => {
+      function rejectSlide() {
+        slide.hidden = true;
+        slides = slides.filter(candidate => candidate !== slide);
+        index = Math.min(index, Math.max(0, slides.length - 1));
+        paint();
+      }
+      slide.addEventListener('error', rejectSlide, { once: true });
+      if (slide.complete && !slide.naturalWidth) rejectSlide();
+    });
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
+    viewer.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(event.key === 'ArrowRight' ? 1 : -1);
+      }
+    });
+    stage.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      openLightbox(slides.map(slide => ({ src: slide.src, alt: slide.alt, caption: slide.dataset.caption || slide.alt })), index, stage, title);
+    });
+    enableSwipe(stage, go);
     paint();
-    cleanups.push(() => viewer.removeAttribute("tabindex"));
   });
 
-  document.querySelectorAll(".skill-block").forEach((block) => {
-    const btn = block.querySelector(".skill-toggle");
-    btn?.addEventListener(
-      "click",
-      () => {
-        const open = block.classList.toggle("is-open");
-        btn.setAttribute("aria-expanded", String(open));
-      },
-      { signal }
-    );
+  document.querySelectorAll('.skill-block').forEach((block, index) => {
+    const button = block.querySelector('.skill-toggle');
+    const note = block.querySelector('.skill-note');
+    note.id = `skill-note-${index + 1}`;
+    button.setAttribute('aria-controls', note.id);
+    button.setAttribute('aria-label', `Note about ${block.querySelector('h3').textContent}`);
+    note.hidden = true;
+    button.hidden = false;
+    button.addEventListener('click', () => {
+      const open = button.getAttribute('aria-expanded') !== 'true';
+      button.setAttribute('aria-expanded', String(open));
+      note.hidden = !open;
+    });
   });
-
-  window[key] = {
-    disconnect() {
-      ac.abort();
-      window.clearTimeout(skeletonTimer);
-      cleanups.forEach((fn) => fn());
-    },
-  };
 })();
