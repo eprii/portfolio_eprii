@@ -1,72 +1,63 @@
-# Hasil pemeriksaan revisi
+# Pemeriksaan revisi UI dan mobile
 
-Pengujian dilakukan pada source hasil revisi, melalui server HTTP lokal dengan path `/portfolio/`, serta pembukaan `index.html` lewat `file://`. Browser: Chromium 153.0.8010.0 headless melalui Playwright. Ukuran layar dan sentuhan disimulasikan; ini bukan pengujian pada perangkat fisik.
+Basis pengerjaan: `portfolio_eprii_new.zip`. Pemeriksaan akhir dilakukan pada 10 Oktober 2026 menggunakan Chromium 153 headless melalui Playwright, server HTTP lokal pada path repository, serta pembukaan `index.html` langsung melalui `file://`.
 
-## Temuan awal yang diperiksa
+## Hasil browser
 
-| Temuan | Perubahan dan bukti |
+**72 pemeriksaan terarah lulus:** 57 pada rangkaian interaksi utama, 11 pada kondisi tambahan/fallback, dan 4 pada pemeriksaan cursor serta penghentian scroll. Tidak ada error JavaScript atau permintaan aset yang gagal pada rangkaian halaman normal. Error yang sengaja disisipkan untuk menguji fallback dipisahkan dari pengujian normal.
+
+| Area | Yang diperiksa |
 | --- | --- |
-| Halaman dengan hash gagal menginisialisasi navigasi | Error awal `Cannot access 'scrollToSection' before initialization` berhasil direproduksi. Urutan inisialisasi diperbaiki; setiap anchor utama kemudian diuji. |
-| Enam screenshot tidak tersedia | Permintaan awal menghasilkan HTTP 404. Referensi file kedua/ketiga dipindahkan ke komentar TODO; viewer menghitung gambar yang benar-benar tersedia. |
-| Tiga tautan source tanpa target | Anchor `project-01-source` hingga `project-03-source` tidak punya tujuan. Sekarang menjadi teks placeholder yang jelas. Nilai lama tetap disimpan dalam atribut. |
-| Konten reveal tersembunyi tanpa JavaScript | Konten sekarang terlihat secara default; hanya elemen yang sudah dipantau observer dibuat menunggu reveal. |
-| Menu mobile tersembunyi masih ada dalam urutan fokus | Panel menggunakan `hidden`, sehingga tautannya tidak dapat difokuskan ketika menu tertutup. |
-| Jarak scroll berubah saat navbar mengecil | Offset layout dipisahkan dari tinggi navbar saat scroll. Posisi sebelum/sesudah lightbox kembali sama dalam uji browser. |
-| Warna teks sekunder kurang kontras | Kontras awal 4,44:1 terdeteksi pada beberapa label. Token warna digelapkan; nomor proyek tetap transparan dengan kontras yang lebih jelas. |
-| Styling lama yang tidak dimuat | `css/style.css` bukan bagian dari stylesheet aktif; dihapus setelah seluruh referensi diperiksa. |
+| Navbar desktop | Blur aktif, posisi indikator, gerakan indikator di antara tautan, anchor offset, section aktif, Back/Forward, deep link ke delapan section, perubahan hash pada dokumen yang sama |
+| Navbar mobile | Dua kolom, tombol minimal 44 px, animasi masuk, status inert saat menutup, buka/tutup berulang cepat, Escape, klik di luar panel, label section, menu landscape yang bisa bergulir |
+| Boot | Animasi zoom-out, Ready tetap terlihat, animasi keluar dengan scale/blur, transisi konten yang sedang terlihat, posisi deep link tidak berubah, Tab untuk melewati, perubahan preferensi gerak saat transisi berjalan |
+| Scroll desktop | Input wheel bergerak bertahap, jarak dikurangi sesuai konfigurasi, pembalikan arah, penghentian oleh keyboard dan ketika menyela navigasi anchor, area scroll bersarang, pengecualian input horizontal dan modifier/pinch |
+| Mobile | Scroll native menggunakan simulasi input sentuh Chromium; swipe galeri dan menu landscape tetap berfungsi |
+| Lightbox | Galeri, tiga sertifikat asli, tiga screenshot proyek, caption, navigasi keyboard, siklus fokus, Escape, penguncian scroll, pemulihan scroll dan fokus |
+| Fitur lama | Back-to-top, Note Skills, status play/stop bintang audio, cursor khusus setelah boot dan cursor native pada boot/lightbox |
+| Fallback | Tanpa JavaScript, reduced motion, script awal yang tertahan, CSS failsafe setelah boot script sengaja gagal, akses file lokal |
 
-## Pengujian otomatis dan interaksi
+Dalam uji wheel terukur, input vertikal 240 px menghasilkan perpindahan 173 px setelah pembulatan browser, sesuai faktor `.72`. Posisi awal 1000 px bergerak bertahap melalui 1030 px sebelum berhenti di 1173 px. Rasa scroll pada trackpad fisik tetap bergantung pada sistem operasi, pengaturan perangkat, dan browser.
 
-**85 assertion browser lulus** pada rangkaian regresi utama. Tidak ada exception JavaScript atau permintaan aset HTTP 4xx/5xx pada halaman uji normal.
+Waktu boot yang terukur pada rangkaian utama: loading 2200 ms, Ready 1001 ms, dan transisi keluar 650 ms. Durasi loading/Ready mempertahankan nilai dari ZIP terbaru, bukan mengembalikannya ke versi sebelumnya.
 
-- Urutan sembilan section utama, tiga proyek, enam foto, tagline, jarak judul dari navbar, serta hubungan tanggal dan penempatan magang.
-- Membuka About, Work, Experience, Education, Achievement, Skills, Beyond, dan Contact langsung melalui hash; memeriksa indikator aktif dan jarak dari navbar.
-- Browser Back/Forward, back-to-top, dan skip link ke `main`.
-- Galeri dibuka dengan Enter; caption asli, gambar penuh, dan `object-fit: contain` diperiksa.
-- Fokus awal tombol X, siklus Tab/Shift+Tab, panah keyboard, tombol sebelumnya/berikutnya, serta perpindahan melingkar dari foto terakhir ke pertama.
-- Penutupan melalui Escape, X, dan latar overlay; scroll terkunci selama modal terbuka, lalu fokus dan posisi scroll pulih.
-- Swipe menggunakan input sentuh Chromium yang disimulasikan.
-- Ketiga screenshot asli dibuka. Jumlah `01 / 01` dan tombol yang dinonaktifkan ketika hanya ada satu gambar diperiksa.
-- Viewer dengan tiga gambar diuji lewat fixture terpisah memakai aset yang sudah ada. Tombol, panah keyboard, dan pembukaan pada gambar aktif berfungsi. Gambar fixture tidak masuk ke ZIP.
-- Empat tombol Note di Skills, menu mobile, Escape, klik di luar menu, dan tautan Education mobile.
-- Cursor khusus pada pointer halus, cursor native pada sentuhan/reduced motion, serta status play/stop easter egg.
-- Boot saat script awal ditunda, penutupan setelah siap, dan fallback ketika script utama gagal dimuat.
-- Mode tanpa JavaScript: konten dan navigasi tersedia, boot tersembunyi, Note terbaca, dan galeri menjadi tautan gambar biasa.
-
-Pemeriksaan tambahan: membuka file langsung, menguji batas maksimum boot ketika script tertahan, menguji slot sertifikat dalam fixture terpisah, dan memeriksa ulang overflow pada lima lebar layar. Hasilnya lulus. Tidak ada sertifikat percobaan atau aset fiktif yang dimasukkan ke source final.
-
-## Responsive dan pemeriksaan visual
+## Tampilan dan aksesibilitas
 
 | Viewport | Hasil |
 | --- | --- |
-| 1366 × 768 | Desktop diperiksa; tidak ada overflow horizontal atau aset rusak |
+| 320 × 740 | Layout mobile sempit diperiksa; tidak ada overflow horizontal atau aset rusak |
+| 390 × 844 | Seluruh section, menu, sertifikat, galeri, dan boot diperiksa |
+| 768 × 1024 | Layout tablet diperiksa; tidak ada overflow horizontal atau aset rusak |
 | 1024 × 768 | Layout laptop/tablet diperiksa; tidak ada overflow horizontal atau aset rusak |
-| 768 × 1024 | Tablet diperiksa; tidak ada overflow horizontal atau aset rusak |
-| 390 × 844 | Mobile diperiksa; tidak ada overflow horizontal atau aset rusak |
-| 320 × 740 | Mobile sempit diperiksa; tidak ada overflow horizontal atau aset rusak |
+| 1366 × 768 | Seluruh section dan navbar desktop diperiksa |
+| 740 × 360 | Menu landscape tetap berada di viewport dan tautan bawah dapat diakses |
 
-Screenshot Hero, About, Work, Experience, Education, Achievement, Skills, Beyond, dan Contact ditinjau pada desktop dan mobile. Lightbox serta boot juga diperiksa secara visual. Perbaikan tambahan dilakukan pada aturan grid timeline BIB di mobile dan offset anchor agar tidak dihitung dua kali.
+Screenshot desktop dan mobile ditinjau secara visual. Foto lazy-loading diperiksa kembali setelah selesai dimuat; keenam foto Beyond tersedia. Preview sertifikat mempertahankan rasio gambar dan terbuka dalam lightbox.
 
-Axe-core dijalankan untuk aturan WCAG 2 A/AA dan WCAG 2.1 AA, pada halaman penuh serta lightbox di desktop dan mobile. **Tidak ada pelanggaran otomatis yang terdeteksi pada pemeriksaan akhir.** Reduced motion diaktifkan pada audit otomatis terakhir agar semua konten reveal tercakup. Pemeriksaan otomatis ini tidak menggantikan pengujian dengan pembaca layar.
+Axe-core dijalankan untuk WCAG 2 A/AA dan WCAG 2.1 AA pada lima kondisi: halaman mobile, menu mobile terbuka, lightbox mobile, halaman desktop, dan lightbox desktop. **Tidak ada pelanggaran otomatis yang terdeteksi.** Ini bukan sertifikasi kepatuhan atau pengganti pengujian pembaca layar.
 
-## Integritas dan anti-slop
+## Perbaikan yang ditemukan saat verifikasi
 
-- Semua ID unik; semua anchor aktif dan path aset HTML/CSS mengarah ke target yang tersedia.
-- Seluruh aset biner asli dibandingkan byte demi byte dan tetap sama.
-- URL GitHub, sosial, WhatsApp, serta email dibandingkan dengan source awal dan dipertahankan.
-- Sintaks seluruh file JavaScript diperiksa dengan `node --check`.
-- `SKILL.md`, ketiga referensi, dan README anti-slop dibaca. Teks, komposisi, serta kode ditinjau secara manual.
-- `detect_slop.py` dijalankan pada teks pengunjung dan README; keduanya memperoleh 0/100. Nilai ini hanya hasil pencocokan pola, bukan jaminan kualitas tulisan.
-- `clean_slop.py` dijalankan dalam mode preview pada salinan teks. Saran menghapus kata “actually” pada kalimat personal tidak diterapkan; suara pemilik tetap dipertahankan. Tidak ada pembersihan otomatis terhadap source.
-- Delapan poin revisi asli disimpan tanpa penulisan ulang di `REVISION-REQUIREMENTS.md`.
+- Tinggi navbar dibuat tetap agar perpindahan ke mode compact tidak menggeser perhitungan offset anchor.
+- Target navigasi tetap ditandai selama perpindahan melewati section lain; indikator kembali mengikuti scroll ketika pengguna mengambil alih.
+- Panel mobile langsung inert selama animasi keluar dan membatalkan animasi sebelumnya ketika dibuka kembali.
+- Perubahan preferensi reduced motion membatalkan transisi konten boot yang masih berjalan.
+- Cursor khusus tidak disembunyikan di balik overlay boot; cursor native digunakan selama intro.
+- Dimensi gambar profil dan sertifikat disesuaikan dengan aset yang disediakan untuk menyediakan ruang sebelum gambar dimuat.
+
+## Integritas dan review
+
+- Teks pada `main` dan Footer dibandingkan dengan ZIP terbaru setelah normalisasi whitespace: tetap sama.
+- Semua URL tautan dibandingkan dan dipertahankan. Tujuan eksternal tidak diuji melalui login.
+- Seluruh aset sumber dibandingkan byte demi byte: tidak berubah.
+- ID, anchor yang mempunyai target, path CSS/JS, dan referensi aset lokal diperiksa.
+- Sintaks semua JavaScript diperiksa dengan `node --check`.
+- Pedoman anti-slop digunakan untuk review teks, desain, dan kode. Tidak ada pembersihan otomatis pada source. Background tetap memakai cream, biru, dan sedikit warna hangat; kaca digunakan pada navigasi dan animasi fokus dibatasi pada intro.
+- Detector dijalankan pada teks pengunjung serta dokumentasi baru. Hasil script dipakai sebagai petunjuk untuk review manual.
+- Delapan poin revisi awal pada `REVISION-REQUIREMENTS.md` tidak diubah. Catatan uji yang dibawa ZIP sumber disimpan pada `TESTING-PREVIOUS.md`; angkanya tidak digabungkan ke hasil versi ini.
 
 ## Batas pemeriksaan
 
-- Safari/WebKit, Firefox, perangkat iOS/Android fisik, pembaca layar, dan keluaran audio yang benar-benar terdengar belum diuji. Status interaksi audio dan pemuatan aset diperiksa.
-- Tautan eksternal dipertahankan dan diperiksa penulisannya; ketersediaan akun atau halaman tujuannya tidak diverifikasi melalui login.
-- Tidak ada deployment ke akun GitHub. Path repository diuji secara lokal.
-- Sertifikat resmi, badge resmi, URL source proyek, detail lomba, dan informasi pendidikan yang belum disediakan masih berupa placeholder.
+Safari/WebKit, Firefox, trackpad fisik, perangkat iOS/Android fisik, pembaca layar, dan keluaran audio yang benar-benar terdengar belum diuji. Status audio dan pemuatan asetnya diperiksa. Tidak ada deployment ke akun GitHub; penggunaan path repository diuji secara lokal.
 
-## Pemeriksaan manual setelah mengisi konten
-
-Buka setiap gambar baru dan periksa caption/alt-nya. Uji URL source dan verifikasi sertifikat yang baru diisi. Periksa kembali layout 320 px dan desktop setelah menambahkan teks panjang. Jika menambah screenshot, coba tombol panah dan swipe sebelum mengunggah ke GitHub Pages.
+Tautan source proyek, tautan pendidikan `href="#"`, dan alamat WhatsApp yang perlu diperiksa pemilik dijelaskan di README. Informasi personal atau URL baru tidak ditebak untuk melengkapi bagian tersebut.

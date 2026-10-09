@@ -2,7 +2,7 @@
 
 .site-header {
   position: fixed;
-  top: 16px;
+  top: max(12px, env(safe-area-inset-top));
   left: 50%;
   translate: -50% 0;
   z-index: 200;
@@ -11,16 +11,16 @@
 }
 
 .nav-pill {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   gap: var(--space-2);
   padding: 6px 6px 6px 18px;
-  background: var(--color-overlay);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: var(--hairline);
+  background: var(--color-surface-raised);
+  border: 1px solid rgba(255, 255, 255, .8);
   border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-nav);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 0 0 1px var(--color-border), 0 8px 28px rgba(28, 49, 71, .09);
   transition:
     padding var(--motion-fast) var(--ease-out),
     background-color var(--motion-fast) var(--ease-out),
@@ -28,9 +28,37 @@
 }
 
 .site-header.is-compact .nav-pill {
-  padding: 4px 4px 4px 16px;
-  background: color-mix(in oklab, var(--color-background) 96%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 0 0 1px var(--color-border), 0 6px 20px rgba(28, 49, 71, .1);
 }
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav-pill, .nav-panel {
+    background: linear-gradient(135deg, rgba(255, 255, 255, .4), transparent 55%), var(--glass-fill);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  }
+}
+
+.nav-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: var(--indicator-width, 0px);
+  height: var(--indicator-height, 0px);
+  transform: translate3d(var(--indicator-x, 0px), var(--indicator-y, 0px), 0);
+  border: 1px solid rgba(255, 255, 255, .75);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(140deg, rgba(232, 240, 245, .95), rgba(155, 182, 204, .35));
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, .9), 0 2px 6px rgba(28, 49, 71, .06);
+  opacity: 0;
+  pointer-events: none;
+}
+.nav-indicator.is-positioned {
+  opacity: 1;
+  transition: transform 360ms var(--ease-smooth-out), width 360ms var(--ease-smooth-out), height 360ms var(--ease-smooth-out), opacity 160ms;
+}
+.nav-current { display: none; }
 
 .nav-brand {
   font-family: var(--font-mono);
@@ -38,7 +66,11 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--color-primary);
-  padding-right: var(--space-3);
+  padding: 10px 12px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  border-radius: var(--radius-pill);
   white-space: nowrap;
 }
 
@@ -59,7 +91,7 @@
   align-items: center;
   min-height: 44px;
   border-radius: var(--radius-pill);
-  transition: color var(--motion-quick) var(--ease-out);
+  transition: color var(--motion-quick) var(--ease-out), transform 180ms var(--ease-out);
 }
 
 .nav-list a:hover {
@@ -68,8 +100,9 @@
 
 .nav-list a.is-active {
   color: var(--color-primary);
-  background: color-mix(in oklab, var(--color-secondary) 14%, transparent);
 }
+.nav-list a:active, .nav-brand:active { transform: scale(.96); }
+.nav-pill:not(.has-indicator) .is-active { background: rgba(122, 147, 168, .14); }
 
 .nav-toggle {
   display: none;
@@ -79,7 +112,12 @@
   align-items: center;
   justify-content: center;
   color: var(--color-primary);
+  background: rgba(122, 147, 168, .1);
+  border: 1px solid rgba(255, 255, 255, .75);
+  transition: background-color 180ms, transform 180ms;
 }
+.nav-toggle:active { transform: scale(.94); }
+.nav-toggle[aria-expanded="true"] { background: rgba(122, 147, 168, .2); }
 
 .nav-toggle-bars {
   width: 16px;
@@ -118,6 +156,74 @@
 
 .nav-panel {
   display: none;
+}
+
+@media (max-width: 980px) {
+  .nav-ready .nav-list { display: none; }
+  .nav-ready .nav-toggle { display: grid; flex-shrink: 0; }
+  .nav-pill, .site-header.is-compact .nav-pill { padding: 5px; width: 100%; gap: 4px; }
+  .nav-pill > .nav-indicator { display: none; }
+  .nav-brand { padding-inline: 10px; font-size: 10px; letter-spacing: .12em; }
+  .nav-ready .nav-current {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+    flex: 1;
+    min-width: 0;
+    padding-right: 8px;
+    color: var(--color-primary);
+    font: 11px var(--font-mono);
+  }
+  .nav-current-index { color: var(--color-muted); font-size: 9px; }
+  .nav-current-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nav-panel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    position: absolute;
+    isolation: isolate;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    border: 1px solid rgba(255, 255, 255, .8);
+    border-radius: 22px;
+    padding: 10px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 0 0 1px var(--color-border), var(--shadow-nav);
+    max-height: calc(100dvh - 100px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform-origin: top center;
+  }
+  .nav-panel a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5px;
+    min-height: 66px;
+    padding: 10px 12px;
+    font: 12px var(--font-mono);
+    letter-spacing: .02em;
+    color: var(--color-primary);
+    border-radius: 14px;
+    transition: color 180ms, transform 180ms;
+  }
+  .nav-panel a::before { content: attr(data-section-index); font-size: 9px; color: var(--color-muted); }
+  .nav-panel a:active { transform: scale(.96); }
+  .nav-panel .nav-indicator { border-radius: 14px; }
+  .nav-panel:not(.has-indicator) a.is-active { background: rgba(122, 147, 168, .14); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .nav-panel { background: var(--color-surface-raised); }
+  }
+}
+
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  .nav-pill, .nav-panel { background: var(--color-surface-raised); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+@media (forced-colors: active) {
+  .nav-indicator { display: none; }
+  .nav-list a.is-active, .nav-panel a.is-active, .nav-brand.is-active { outline: 1px solid Highlight; }
 }
 
 .back-top {

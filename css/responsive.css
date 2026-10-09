@@ -66,57 +66,6 @@
 }
 
 @media (max-width: 980px) {
-  .nav-ready .nav-list {
-    display: none;
-  }
-
-  .nav-ready .nav-toggle {
-    display: grid;
-  }
-
-  .nav-pill {
-    padding: 4px 4px 4px 16px;
-    width: min(100%, 360px);
-    justify-content: space-between;
-  }
-
-  .nav-panel {
-    display: block;
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    right: 0;
-    background: var(--color-overlay);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: var(--hairline);
-    border-radius: var(--radius-lg);
-    padding: var(--space-3);
-    box-shadow: var(--shadow-nav);
-    max-height: calc(100dvh - 100px);
-    overflow-y: auto;
-    transform-origin: top center;
-    transition:
-      opacity var(--motion-fast) var(--ease-smooth-out),
-      transform var(--motion-fast) var(--ease-smooth-out);
-  }
-
-  .nav-panel a {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-primary);
-    padding: 12px 14px;
-    min-height: 44px;
-    border-radius: var(--radius-sm);
-  }
-
-  .nav-panel a.is-active {
-    background: color-mix(in oklab, var(--color-primary) 6%, transparent);
-  }
-
   .hero-star {
     top: 16%;
     right: 18px;
@@ -275,6 +224,7 @@
   .education-entry { grid-template-columns: 1fr 24px; gap: 16px; }
   .education-period { grid-column: 1 / -1; }
   .education-mark { grid-column: 2; grid-row: 2; }
+  .education-link { grid-column: 2; grid-row: 2; min-height: 44px; display: grid; place-items: start center; }
   .credential-featured { grid-template-columns: 1fr; padding-block: 32px; }
   .credential-copy { order: -1; }
   .credential-assets { grid-template-columns: 1fr 100px; }
@@ -289,6 +239,7 @@
   .timeline-body { min-width: 0; }
   .timeline-role { line-height: 1.8; overflow-wrap: anywhere; }
   .gallery { grid-auto-rows: minmax(140px, 28vw); }
+  .gallery figcaption { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .gallery figure:first-child { height: auto; }
   .lightbox { padding: 12px; }
   .lightbox-shell { padding: 12px; }
@@ -304,4 +255,7 @@
   .badge-slot { min-height: 72px; width: 128px; }
   .photo-offset { inset: 12px -8px -12px 8px; }
   .contact-list .placeholder-token { font-size: .85em; letter-spacing: 0; }
+  .boot { padding: 20px; }
+  .boot-console { border-radius: 20px; }
+  .boot-heading { font-size: 9px; letter-spacing: .04em; }
 }

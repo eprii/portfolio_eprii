@@ -78,6 +78,10 @@
   --color-border-strong: color-mix(in oklab, var(--color-primary) 28%, transparent);
   --color-arc: color-mix(in oklab, var(--color-secondary) 55%, transparent);
   --color-overlay: color-mix(in oklab, var(--color-background) 78%, transparent);
+  --wash-blue: rgba(126, 168, 201, .3);
+  --wash-warm: rgba(201, 162, 125, .2);
+  --glass-fill: rgba(248, 246, 241, .55);
+  --glass-blur: 4px;
 
   /* Type */
   --font-sans: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
@@ -111,7 +115,7 @@
   --space-8: 64px;
   --space-9: 96px;
 
-  --pad-x: clamp(20px, 5vw, 72px);
+  --pad-x: max(clamp(20px, 5vw, 72px), env(safe-area-inset-left), env(safe-area-inset-right));
   --section-y: clamp(3.5rem, 6.5vw, 5.75rem);
   --section-y-top: 1.25rem;
   --content: 1180px;

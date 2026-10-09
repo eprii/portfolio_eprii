@@ -23,6 +23,7 @@
   }
   document.addEventListener('pointermove', event => {
     if (!fine.matches || reduced.matches || event.pointerType === 'touch') return;
+    if (event.target.closest('#boot')) { hide(); return; }
     targetX = event.clientX; targetY = event.clientY;
     if (!visible) {
       x = targetX; y = targetY;

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Efri's Portfolio</title>
     <meta
       name="description"
@@ -39,7 +39,9 @@
 
     <header class="site-header" id="site-header">
       <nav class="nav-pill" aria-label="Primary">
+        <span class="nav-indicator" aria-hidden="true"></span>
         <a class="nav-brand" href="#hero">Eprii.dev</a>
+        <span class="nav-current" aria-hidden="true"><span class="nav-current-index">01</span><span class="nav-current-name">Home</span></span>
         <ul class="nav-list">
           <li><a href="#about">About</a></li>
           <li><a href="#work">Work</a></li>
@@ -61,6 +63,7 @@
         </button>
       </nav>
       <div class="nav-panel" id="nav-panel" hidden>
+        <span class="nav-indicator" aria-hidden="true"></span>
         <a href="#about">About</a>
         <a href="#work">Work</a>
         <a href="#experience">Experience</a>
@@ -173,11 +176,9 @@
               <div class="photo-offset" aria-hidden="true"></div>
               <div class="photo-square" aria-hidden="true"></div>
               <div class="photo-frame">
-                <img
+                <img width="3079" height="4500"
                   src="assets/images/PASFOTO_2.webp"
                   alt="Akhmad Supriyadi"
-                  width="1400"
-                  height="1050"
                   fetchpriority="high"
                   decoding="async"
                 />
@@ -389,22 +390,15 @@
           </header>
           <article class="credential credential-featured reveal" id="unity-credential">
             <div class="credential-assets">
-              <div class="certificate-slot"><span aria-hidden="true"></span><p>
+              <div class="certificate-slot has-asset">
                 <a href="assets/certificates/UNITY_CERTIFIED_USER_PROGRAMMER.webp" data-lightbox data-caption="Unity Certified User Programmer">
-                     <img src="assets/certificates/UNITY_CERTIFIED_USER_PROGRAMMER.webp" alt="Unity Certified User Programmer certificate" loading="lazy" />
+                     <img width="2339" height="1646" src="assets/certificates/UNITY_CERTIFIED_USER_PROGRAMMER.webp" alt="Unity Certified User Programmer certificate" loading="lazy" />
                    </a>
-                  </p></div>
-              <div class="badge-slot"><span>
-                <small>Official<br>Badge</small><br><br>
-                <img src="assets/certificates/unity-certified-user-programmer-badge.png" alt="Unity Certified User Programmer badge" loading="lazy" />
-                
-              </span></div>
-              <!-- TODO: replace slots with your supplied certificate and official badge.
-                   Image example (uncomment only after adding the asset):
-                   <a href="assets/certificates/unity-certificate.webp" data-lightbox data-caption="Unity Certified User Programmer">
-                     <img src="assets/certificates/unity-certificate.webp" alt="Unity Certified User Programmer certificate" loading="lazy" />
-                   </a>
-              -->
+              </div>
+              <div class="badge-slot has-asset">
+                <small>Official Badge</small>
+                <img width="300" height="300" src="assets/certificates/unity-certified-user-programmer-badge.png" alt="Unity Certified User Programmer badge" loading="lazy" />
+              </div>
             </div>
             <div class="credential-copy">
               <p class="credential-category">International certification</p>
@@ -424,9 +418,9 @@
                 <p><span class="placeholder-token">English Competition</span></p>
                 <p class="credential-meta"><span class="placeholder-token">11<sup>th</sup> International Events, UIN Antasari Banjarmasin · 10-13 of November, 2025</span></p>
               </div>
-              <div class="certificate-slot certificate-slot-small"><p><a href="assets/certificates/first-spelling-bee.webp" data-lightbox data-caption="1st Champion Spelling Bee Competition">
-                     <img src="assets/certificates/first-spelling-bee.webp" alt="1st Champion Spelling Bee Competition certificate" loading="lazy" />
-                   </a></p></div>
+              <div class="certificate-slot certificate-slot-small has-asset"><a href="assets/certificates/first-spelling-bee.webp" data-lightbox data-caption="1st Champion Spelling Bee Competition">
+                     <img width="2337" height="1653" src="assets/certificates/first-spelling-bee.webp" alt="1st Champion Spelling Bee Competition certificate" loading="lazy" />
+                   </a></div>
             </article>
             <article class="credential competition-entry reveal">
               <div class="competition-number" aria-hidden="true">02</div>
@@ -436,9 +430,9 @@
                 <p><span class="placeholder-token">English Competition</span></p>
                 <p class="credential-meta"><span class="placeholder-token">SMK Telkom Banjarbaru · 29 of April - 3 of May, 2024</span></p>
               </div>
-              <div class="certificate-slot certificate-slot-small"><p><a href="assets/certificates/sec-spelling-bee.webp" data-lightbox data-caption="2nd Champion Spelling Bee Competition">
-                     <img src="assets/certificates/sec-spelling-bee.webp" alt="2nd Champion Spelling Bee Competition certificate" loading="lazy" />
-                   </a></p></div>
+              <div class="certificate-slot certificate-slot-small has-asset"><a href="assets/certificates/sec-spelling-bee.webp" data-lightbox data-caption="2nd Champion Spelling Bee Competition">
+                     <img width="2570" height="1673" src="assets/certificates/sec-spelling-bee.webp" alt="2nd Champion Spelling Bee Competition certificate" loading="lazy" />
+                   </a></div>
             </article>
           </div>
         </div>
@@ -692,6 +686,7 @@
       </div>
     </dialog>
 
+    <script src="js/scroll.js" defer></script>
     <script src="js/navigation.js" defer></script>
     <script src="js/animations.js" defer></script>
     <script src="js/cursor.js" defer></script>

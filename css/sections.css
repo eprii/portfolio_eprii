@@ -1,5 +1,17 @@
 /* Page sections: hero through footer. */
 
+/* Soft colour fields sit at the edges, leaving the reading column quiet. */
+#hero { background-image: radial-gradient(ellipse 65% 45% at 100% 40%, var(--wash-blue), transparent 80%), radial-gradient(ellipse 45% 25% at 5% 78%, var(--wash-warm), transparent 80%); }
+#about { background-image: radial-gradient(ellipse 65% 40% at 95% 55%, var(--wash-warm), transparent 80%); }
+#work { background-image: radial-gradient(ellipse 60% 22% at 0% 22%, var(--wash-blue), transparent 85%), radial-gradient(ellipse 60% 20% at 100% 78%, var(--wash-warm), transparent 85%); }
+#experience { background-image: radial-gradient(ellipse 65% 40% at 95% 55%, var(--wash-blue), transparent 80%); }
+#education { background-image: radial-gradient(ellipse 60% 40% at 5% 55%, var(--wash-warm), transparent 80%); }
+#achievement { background-image: radial-gradient(ellipse 65% 24% at 100% 28%, var(--wash-blue), transparent 85%), radial-gradient(ellipse 55% 20% at 0% 78%, var(--wash-warm), transparent 85%); }
+#skills { background-image: radial-gradient(ellipse 65% 40% at 0% 50%, var(--wash-blue), transparent 85%); }
+#beyond { background-image: radial-gradient(ellipse 65% 35% at 100% 48%, var(--wash-warm), transparent 85%); }
+#contact { background-image: radial-gradient(ellipse 65% 40% at 95% 55%, var(--wash-blue), transparent 85%); }
+.site-footer { background-image: radial-gradient(ellipse 60% 45% at 0% 65%, var(--wash-warm), transparent 80%); }
+
 /* ---------- HERO ---------- */
 
 .hero {
@@ -806,6 +818,15 @@
 .competition-entry h3 { font-size: var(--text-lg); line-height: 1.4; }
 .competition-number { font: 14px var(--font-mono); color: var(--color-muted); padding-top: 3px; }
 .certificate-slot-small { min-height: 110px; padding: var(--space-4); justify-content: end; }
+.certificate-slot.has-asset { min-height: 0; padding: 8px; border-style: solid; background: rgba(248, 246, 241, .65); }
+.certificate-slot.has-asset a { overflow: hidden; }
+.certificate-slot.has-asset img { transition: transform var(--motion-medium) var(--ease-out); }
+.certificate-slot.has-asset a:focus-visible { outline-offset: 3px; }
+.badge-slot.has-asset { min-height: 0; border: 0; padding: 0; gap: 12px; }
+.badge-slot.has-asset img { max-width: 120px; margin-inline: auto; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .certificate-slot.has-asset a:hover img { transform: scale(1.015); }
+}
 .beyond-heading { position: relative; padding-right: 60px; }
 .margin-heart { position: absolute; right: 0; bottom: -6px; font-size: 60px; color: var(--color-accent); opacity: .7; transform: rotate(-14deg); pointer-events: none; }
 .gallery [data-lightbox] { display: block; width: 100%; height: 100%; }
